@@ -55,7 +55,7 @@ const MenuItem = ({ name, price, image }) => (
       </span>
     </div>
     <div className="ml-4 flex-grow">
-      <h3 className="text-lg font-semibold text-primary">{name}</h3>
+      <h3 className="text-lg font-semibold text-white">{name}</h3>
     </div>
   </div>
 );
@@ -77,7 +77,7 @@ const MenuSection = ({ title, items, icon: Icon }) => (
 export default function CoffeeMenu() {
   return (
     <div className="container mx-auto px-4 py-8 ">
-      <h1 className="text-center text-3xl font-bold mb-2 text-primary">MENU & PRICING</h1>
+      <h1 className="text-center text-3xl font-bold mb-2 text-white">MENU & PRICING</h1>
       <h2 className="text-center text-4xl font-bold mb-8 text-primary-foreground">Competitive Pricing</h2>
       <div className="flex flex-wrap -mx-4">
         <MenuSection title="Café Chaud" items={cafeChaud} icon={Coffee} />
