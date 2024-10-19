@@ -1,0 +1,61 @@
+:root {
+    --primary-color: #33211d;
+    --secondary-color: #da9f5b;
+    --text-color: black;
+    --background-color: white;
+  }
+  
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif; /* Adjust as needed */
+  }
+  
+  h1, h2, h3 {
+    color: var(--primary-color);
+  }
+  
+  .bg-secondary {
+    background-color: var(--secondary-color);
+  }
+  menuitem icon{
+    color: var(--secondary-color);
+  }
+  .text-primary {
+    color: var(--primary-color);
+  }
+  
+  .text-primary-foreground {
+    color: var(--secondary-color);
+  }
+  
+  .flex {
+    display: flex;
+  }
+  
+  .grid {
+    display: grid;
+  }
+  
+  .flex-grow {
+    flex-grow: 1;
+  }
+  
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+  
+  .shadow-md {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .shadow-lg {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .transition-all {
+    transition: all 0.3s ease;
+  }
+  
+  /* Add other necessary styles here */
+  
