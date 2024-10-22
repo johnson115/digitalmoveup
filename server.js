@@ -8,13 +8,14 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'build')));
 
 // Endpoint to get the current favorite counts for all products
-app.get('/api/favorites', (req, res) => {
+app.get('/api/favorites/:productId', (req, res) => {
+  const { productId } = req.params;
   fs.readFile('favorites.json', (err, data) => {
     if (err) {
       return res.status(500).json({ message: 'Error reading data' });
     }
     const favorites = JSON.parse(data);
-    res.json(favorites);
+    res.json({ count: favorites[productId] || 0 });
   });
 });
 

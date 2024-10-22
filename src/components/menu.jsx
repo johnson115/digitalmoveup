@@ -1,5 +1,5 @@
 import React from 'react';
-import { Coffee, Sandwich, IceCream, Cake, Star } from 'lucide-react';
+import { Coffee, Sandwich, IceCream, Cake, Heart } from 'lucide-react';
 import "./menu.css";
 import Header from "./header.jsx";
 import { useState } from 'react';
@@ -61,28 +61,40 @@ const collations = [
 
 const MenuItem = ({ id, name, price, image }) => {
   const [favoriteCount, setFavoriteCount] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [userLiked, setUserLiked] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/favorites')
+    fetch(`http://localhost:3000/api/favorites/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        setFavoriteCount(data[id] || 0);
-        setIsFavorite(data[id] > 0);
+        setFavoriteCount(data.count || 0);
       })
       .catch((error) => console.error('Error fetching favorite count:', error));
+
+    const likedItems = JSON.parse(localStorage.getItem('likedItems') || '{}');
+    setUserLiked(!!likedItems[id]);
   }, [id]);
 
   const toggleFavorite = () => {
-    const newCount = isFavorite ? favoriteCount - 1 : favoriteCount + 1;
+    const newCount = userLiked ? favoriteCount - 1 : favoriteCount + 1;
+    const newUserLiked = !userLiked;
+
     setFavoriteCount(newCount);
-    setIsFavorite(!isFavorite);
+    setUserLiked(newUserLiked);
 
     fetch(`http://localhost:3000/api/favorites/${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ count: newCount }),
     }).catch((error) => console.error('Error updating favorite count:', error));
+
+    const likedItems = JSON.parse(localStorage.getItem('likedItems') || '{}');
+    if (newUserLiked) {
+      likedItems[id] = true;
+    } else {
+      delete likedItems[id];
+    }
+    localStorage.setItem('likedItems', JSON.stringify(likedItems));
   };
 
   return (
@@ -97,11 +109,12 @@ const MenuItem = ({ id, name, price, image }) => {
         <h3 className="text-lg font-semibold text-white">{name}</h3>
       </div>
       <div className="relative mr-5">
-        <Star
-          className="cursor-pointer"
+        <Heart
+          className="cursor-pointer transition-colors duration-200"
           onClick={toggleFavorite}
-          fill={isFavorite ? "#da9f5b" : "none"}
-          color={isFavorite ? "#da9f5b" : "currentColor"}
+          fill={userLiked ? "#da9f5b" : "none"}
+          color={userLiked ? "#da9f5b" : "currentColor"}
+          size={24}
         />
         {favoriteCount > 0 && (
           <span className="absolute -top-2 -right-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -115,13 +128,17 @@ const MenuItem = ({ id, name, price, image }) => {
 
 const MenuSection = ({ title, items, icon: Icon }) => (
   <div className="w-full md:w-1/2 px-4 mb-8">
-    <h2 className="text-2xl font-bold mb-4 text-[#da9f5b] border-b-2 border-primary pb-2 flex items-center">
+    <h2 className="text-2xl font-bold mb-4 text-[#422a24] border-b-2 border-primary pb-2 flex items-center">
       <Icon className="mr-2" size={24} />
       {title}
     </h2>
     <div className="grid gap-4">
       {items.map((item, index) => (
-        <MenuItem key={index} id={`${title.toLowerCase().replace(' ', '-')}-${index}`} {...item} />
+        <MenuItem 
+          key={index} 
+          id={`${title.toLowerCase().replace(' ', '-')}-${index}`}
+          {...item} 
+        />
       ))}
     </div>
   </div>
