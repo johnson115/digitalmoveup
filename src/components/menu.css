@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #33211d;
+    --primary-color: #422a24;
     --secondary-color: #da9f5b;
     --text-color: black;
     --background-color: white;
@@ -14,9 +14,12 @@
   h1, h2, h3 {
     color: var(--primary-color);
   }
+  .bg-primary{
+    background-color: var(--secondary-color);
+  }
   
   .bg-secondary {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
   }
   menuitem icon{
     color: var(--secondary-color);
